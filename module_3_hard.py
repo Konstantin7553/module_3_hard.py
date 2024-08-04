@@ -1,29 +1,23 @@
-def count_numbers_and_strings(data_structure):
-    numbers = 0
-    strings = 0
+def calculate_sum(data):
+    total = 0
 
-    def recurse(item):
-        nonlocal numbers, strings
-        if isinstance(item, (int, float)):
-            numbers += 1
-        elif isinstance(item, str):
-            strings += 1
-        elif isinstance(item, dict):
-            for key, value in item.items():
-                recurse(key)
-                recurse(value)
-        elif isinstance(item, (list, tuple, set)):
-            for element in item:
-                recurse(element)
+    if isinstance(data, (int, float)):
+        return data
+    elif isinstance(data, str):
+        return len(data)
+    elif isinstance(data, dict):
+        for key, value in data.items():
+            total += calculate_sum(key)
+            total += calculate_sum(value)
+    elif isinstance(data, (list, tuple, set)):
+        for item in data:
+            total += calculate_sum(item)
 
-    recurse(data_structure)
-    return numbers, strings
+    return total
 
 
-data_structure = [[1, 2, 3], {'a': 4, 'b': 5}, (6, {'cube': 7, 'drum': 8}), "Hello",
-                  ((), [{(2, 'Urban', ('Urban2', 35))}])]
+data_structure = [[1, 2, 3],{'a': 4, 'b': 5},(6, {'cube': 7, 'drum': 8}),"Hello",((), [{(2, 'Urban', ('Urban2', 35))}])]
 
-numbers, strings = count_numbers_and_strings(data_structure)
-print(f"Количество чисел: {numbers}")
-print(f"Количество строк: {strings}")
+result = calculate_sum(data_structure)
+print(result)
 
